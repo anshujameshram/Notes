@@ -1,0 +1,125 @@
+Event delegation is a technique where you attach a single event listener to a parent element, and handle events from its child elements through event bubbling.
+
+Instead of adding event listeners to every child individually, you use one on the parent and detect which child triggered the event.
+
+How It Works (Event Bubbling)-
+-----------------------------------------
+Event delegation relies on event bubbling:
+
+When an event occurs on an element, it bubbles up the DOM tree.
+The event can be caught by a listener on any ancestor.
+Using event.target, we can check which element actually triggered the event.
+
+
+Why Event Delegation Is Useful-
+----------------------------------
+✅ Pros:
+Performance: One listener instead of many.
+
+Dynamic Content: Handles child elements that are added or removed dynamically.
+
+Cleaner Code: Reduces redundancy.
+
+
+Real-Life Example
+HTML:
+
+
+<ul id="menu">
+  <li>Home</li>
+  <li>About</li>
+  <li>Contact</li>
+</ul>
+
+JavaScript (Event Delegation):
+
+document.getElementById("menu").addEventListener("click", function(event) {
+  if (event.target.tagName === "LI") {
+    alert("You clicked: " + event.target.textContent);
+  }
+});
+
+Explanation:
+#menu is the parent.
+We attach one click listener to it.
+Inside the handler, we use event.target to detect which <li> was clicked.
+No need to add a listener to every <li>.
+
+
+📌 When to Use Event Delegation
+✅ Use event delegation when:
+
+You have a list of similar child elements.
+The list may grow or change dynamically.
+You want to minimize memory usage and improve performance.
+
+
+
+example-
+
+
+document.queryselector("#category").addEventListener("click",(e)=>{
+console.log(e.target);
+console.log(e.target.id);
+if(e.target.tagName === "LI"){
+	window.location.href="/"+e.target.id;  //localhost:8080/laptops
+  }
+})
+
+<li id="category">
+<ul >laptop</ul>
+<ul>Home</ul>
+<ul>shoes</ul>
+</li>
+
+
+
+example-
+
+<form id="userForm">
+  <input type="text" name="username" placeholder="Username" /><br />
+  <input type="email" name="email" placeholder="Email" /><br />
+  <input type="password" name="password" placeholder="Password" /><br />
+  <button type="submit">Submit</button>
+</form>
+
+
+
+const form = document.getElementById("userForm");
+
+form.addEventListener("input", function(event) {
+  const target = event.target;
+
+  // Check if the event came from an input field
+  if (target.tagName === "INPUT") {
+    console.log(`Field "${target.name}" changed to: ${target.value}`);
+  }
+});
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault(); // prevent actual submission
+  console.log("Form submitted!");
+});
+
+
+How It Works-
+----------------
+The input event is delegated to the form.
+It listens for changes in any of the input fields.
+Uses event.target to determine which field was changed.
+Only one event listener is needed instead of one per input.
+
+
+benefit-
+-------------
+1.memory - need to attach only one event listeners so it saves lot of memory.
+2.writing less code - 
+3.dom manipulation 
+
+
+limitations-
+there are lot of events which are not bubbled up- some events do not propogate the hierarchy.
+
+
+
+

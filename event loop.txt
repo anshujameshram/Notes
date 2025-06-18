@@ -1,0 +1,2 @@
+call stack is present inside the javascript engine.
+

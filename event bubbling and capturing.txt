@@ -1,0 +1,161 @@
+Event Bubbling and Capturing are two phases of how events propagate in the DOM (Document Object Model) when an event is triggered on an element.
+
+🔄 Event Propagation Phases
+When an event (like a click) happens, it goes through three phases:
+
+1.Capturing Phase (Trickling Down)
+
+The event starts from the window and goes down the DOM tree to the target element.
+Also called "capture phase" or "trickle-down phase".
+
+2.Target Phase
+
+The event reaches the actual target element.
+
+3.Bubbling Phase (Bubbling Up)
+
+The event bubbles up from the target element back to the window.
+
+
+example DOM-
+<div id="parent">
+  <button id="child">Click Me</button>
+</div>
+
+event bubbling-
+------------------
+document.getElementById("parent").addEventListener("click", () => {
+  console.log("Parent clicked");
+}, false); // bubbling   //false by default
+
+document.getElementById("child").addEventListener("click", () => {
+  console.log("Child clicked");
+}, false); // bubbling
+
+
+output-
+Child clicked
+Parent clicked
+
+
+➡️ This is event bubbling: child fires first, then it bubbles up to parent.
+
+
+event capturing/trickling-
+---------------------------
+
+document.getElementById("parent").addEventListener("click", () => {
+  console.log("Parent clicked during capture");
+}, true); // useCapture = true
+
+document.getElementById("child").addEventListener("click", () => {
+  console.log("Child clicked");
+}, false);
+
+
+output-
+Parent clicked during capture
+Child clicked
+
+
+➡️ This is event capturing: parent listens during the capture phase before the event reaches the child.
+
+
+Summary-
+----------
+
+| Feature                 | Capturing (Trickling) | Bubbling (Default)           |
+| ----------------------- | --------------------- | ---------------------------- |
+| Direction               | Top → Target          | Target → Top                 |
+| Set in addEventListener | `useCapture = true`   | `useCapture = false` or omit |
+| Commonly used           | Less common           | Most events bubble           |
+
+
+
+💡 Tip
+To stop event propagation:
+
+event.stopPropagation() → Stops bubbling/capturing further.
+event.stopImmediatePropagation() → Also prevents other listeners on the same element.
+
+
+
+
+example-
+<div id="grandparent">
+	<div id="parent">
+		<div id="child">
+		</div>
+	</div>
+</div>
+
+document.querySElector("#grandparent").addEventListener('click',()=>{
+console.log("grandparent clicked!")
+},false);
+
+document.querySElector("#parent").addEventListener('click',()=>{
+console.log("parent clicked!")
+},false);
+
+document.querySElector("#child").addEventListener('click',()=>{
+console.log("child clicked!")
+},false);
+
+
+
+output-
+-----------
+if i click child then,
+
+child 
+parent
+grandparent
+
+if i click grandparent then,
+
+grandparent
+
+
+
+
+if we mention true in second argument then,
+
+grandparent
+parent
+child
+
+
+
+document.querySElector("#grandparent").addEventListener('click',(e)=>{
+console.log("grandparent clicked!")
+},true);  //capturing
+ 
+document.querySElector("#parent").addEventListener('click',(e)=>{
+console.log("parent clicked!")
+},false); //bubbling
+
+document.querySElector("#child").addEventListener('click',(e)=>{
+console.log("child clicked!")
+},true);  //capturing
+
+
+output-
+grandparent
+child
+parent
+
+
+first capturing happens then bubbling.
+
+
+
+
+
+
+
+
+
+
+
+
+
